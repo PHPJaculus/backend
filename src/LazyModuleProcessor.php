@@ -9,7 +9,10 @@ class LazyModuleProcessor implements \ArrayAccess {
 
     public function __construct(IModule $module, array $input) {
         $this->module = $module;
-        $this->input = $input;
+        if(count($input) > 0)
+        {
+            $this->input = new ArrayWrapper($input);
+        }
     }
 
     public function __call($name, array $args) {
@@ -71,6 +74,9 @@ class LazyModuleProcessor implements \ArrayAccess {
         if(!$this->has_executed) {
             $this->has_executed = true;
             $this->module->beforeProcessing();
+            if(!$this->input)
+                $this->input = new ArrayWrapper();
+
             $this->value = $this->module->process($this->input);
         }
     }

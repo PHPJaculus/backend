@@ -11,19 +11,6 @@ use PHPUnit\Framework\TestCase;
 
 class ModuleTest extends TestCase  {
 
-    public function testProcessModules() {
-        $mh = new ModuleHelper();
-        $modules = ["module1" => new Module1()];
-        $instructions = [
-            "var" => $mh->module1(1,2,3)
-        ];
-        $vars = Module::processModules($instructions, $modules);
-
-        $this->assertEquals([
-            'var' => [1,2,3]
-        ], $vars);
-    }
-
     public function testVars() {
         DI::setupJaculus(null, []);
         $_SERVER['REQUEST_METHOD'] = 'GET';
@@ -51,7 +38,7 @@ class ModuleTest extends TestCase  {
 }
 
 class Module1 extends Module {
-    public function process(array $input) {
+    public function process(ArrayWrapper $input) {
         return $input;
     }
 }
