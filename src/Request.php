@@ -12,6 +12,7 @@ class Request {
     public $cookies;
     public $session;
     public $request;
+    public $input;
 
     public function __construct() {
         $this->method      = $_SERVER['REQUEST_METHOD'];
@@ -22,6 +23,18 @@ class Request {
         $this->cookies     = DI::get('$_COOKIE');
         $this->session     = DI::get('$_SESSION');
         $this->request     = DI::get('$_REQUEST');
+        
+        switch($this->method) {
+            case 'GET':
+                $this->input = $this->get;
+                break;
+            case 'POST':
+                $this->input = $this->post;
+                break;
+            default:
+                $this->input = $this->request;
+                break;
+        }
     }
 
     public function redirect($uri) {

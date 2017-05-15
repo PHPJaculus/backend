@@ -14,6 +14,10 @@ class RequestTest extends TestCase  {
 
     protected function tearDown() {
         DI::destroy();
+        $_GET = [];
+        $_POST = [];
+        $_SERVER['REQUEST_METHOD'] = '';
+        $_SERVER['REQUEST_URI'] = '';
     }
 
     function testMethod1() {
@@ -47,5 +51,41 @@ class RequestTest extends TestCase  {
         $this->assertInstanceOf(ArrayWrapper::class, $r->request);
         $this->assertInstanceOf(ArrayWrapper::class, $r->cookies);
         $this->assertInstanceOf(SessionArrayWrapper::class, $r->session);
+    }
+
+    function testInputGetGet() {
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI'] = '/foo';
+        $_GET = ['foo' => 'zebra'];
+        $r = new Request();
+        $foo = $r->input->foo;
+        $this->assertEquals('zebra', $foo);
+    }
+
+    function testInputGetPost() {
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_SERVER['REQUEST_URI'] = '/foo';
+        $_GET = ['foo' => 'zebra'];
+        $r = new Request();
+        $foo = $r->input->foo;
+        $this->assertEquals(null, $foo);
+    }
+
+    function testInputPostPost() {
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_SERVER['REQUEST_URI'] = '/foo';
+        $_POST = ['foo' => 'zebra'];
+        $r = new Request();
+        $foo = $r->input->foo;
+        $this->assertEquals('zebra', $foo);
+    }
+
+    function testInputPostGet() {
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI'] = '/foo';
+        $_POST = ['foo' => 'zebra'];
+        $r = new Request();
+        $foo = $r->input->foo;
+        $this->assertEquals(null, $foo);
     }
 }

@@ -25,8 +25,8 @@ class DI {
         if($dir !== null)
             $di_builder->addDefinitions($dir . '/env.php');
 
-        $aw = function(array $arr) {
-            return function(Container $c) use($arr) { return new ArrayWrapper($arr); };
+        $aw = function(array &$arr) {
+            return function(Container $c) use(&$arr) { return new ArrayWrapper($arr); };
         };
         $di_builder->addDefinitions([
             '$GLOBALS' => $aw($GLOBALS),
