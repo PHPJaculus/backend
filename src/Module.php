@@ -13,7 +13,6 @@ class Module implements IModule {
     //Other
     public $request;
     public $config;
-    public $db;
 	public $permissions;
 
     public function beforeProcessing() {
@@ -29,8 +28,11 @@ class Module implements IModule {
                  return null;
              } 
         };
-        $this->db           = function() { return DI::get(DB::class); };
 		$this->permissions  = DI::get(UserPermissions::class);
+    }
+
+    public function db() {
+        return DI::get(DB::class);
     }
 
     public function validate_input(ArrayWrapper $input) {
