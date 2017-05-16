@@ -13,7 +13,11 @@ class DI {
     }
 
     public static function get($id) {
-        return self::$di->get($id);
+        try {
+            self::$di->get($id);
+        } catch(\Exception $e) {
+            return null;
+        }
     }
 
     public static function setContainer(Container $container) {
@@ -61,15 +65,15 @@ class DI {
             },
             DB::class => function(Container $c) {
                 return new DB([
-                    'database_type' => $c->get('db.type'),
-                    'database_name' => $c->get('db.name'),
-                    'server' => $c->get('db.server'),
-                    'username' => $c->get('db.username'),
-                    'password' => $c->get('db.password'),
-                    'charset' => $c->get('db.charset'),
-                    'port' => $c->get('db.port'),
-                    'prefix' => $c->get('db.prefix'),
-                    'option' => $c->get('db.driver_option')
+                    'database_type' => DI::get('db.type'),
+                    'database_name' => DI::get('db.name'),
+                    'server' => DI::get('db.server'),
+                    'username' => DI::get('db.username'),
+                    'password' => DI::get('db.password'),
+                    'charset' => DI::get('db.charset'),
+                    'port' => DI::get('db.port'),
+                    'prefix' => DI::get('db.prefix'),
+                    'option' => DI::get('db.driver_option')
                 ]);
             }
         ]);
