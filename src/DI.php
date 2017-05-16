@@ -13,11 +13,7 @@ class DI {
     }
 
     public static function get($id) {
-        try {
-            self::$di->get($id);
-        } catch(\Exception $e) {
-            return null;
-        }
+        return self::$di->get($id);
     }
 
     public static function setContainer(Container $container) {
@@ -64,7 +60,7 @@ class DI {
                 return new UserPermissions($permissions);
             },
             DB::class => function(Container $c) {
-                return new DB(DI::get('db'));
+                return new DB($c->get('db'));
             }
         ]);
         DI::setContainer($di_builder->build());

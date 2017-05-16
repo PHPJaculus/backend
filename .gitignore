@@ -11,3 +11,4 @@
 /cache
 /.htaccess
 /test_templates
+/.env.php
