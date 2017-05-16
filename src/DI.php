@@ -64,17 +64,7 @@ class DI {
                 return new UserPermissions($permissions);
             },
             DB::class => function(Container $c) {
-                return new DB([
-                    'database_type' => DI::get('db.type'),
-                    'database_name' => DI::get('db.name'),
-                    'server' => DI::get('db.server'),
-                    'username' => DI::get('db.username'),
-                    'password' => DI::get('db.password'),
-                    'charset' => DI::get('db.charset'),
-                    'port' => DI::get('db.port'),
-                    'prefix' => DI::get('db.prefix'),
-                    'option' => DI::get('db.driver_option')
-                ]);
+                return new DB(DI::get('db'));
             }
         ]);
         DI::setContainer($di_builder->build());

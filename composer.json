@@ -6,6 +6,7 @@
         "name": "Jerry Andersson",
         "email": "Jerry.Kittyson@gmail.com"
     }],
+	"minimum-stability": "stable",
     "autoload": {
         "psr-4": {
             "Jaculus\\": "src/"
